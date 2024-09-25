@@ -61,4 +61,4 @@ class QuantiteRessource(models.Model):
     quantite = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.ressource
+        return f"{self.quantite}"
