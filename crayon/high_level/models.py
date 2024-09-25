@@ -72,7 +72,7 @@ class Etape:
     # etape_suivant = models.ForeignKey("self", on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.nom} : {self.duree}"
+        return self.nom
 
 
 class Produit(Objet):
