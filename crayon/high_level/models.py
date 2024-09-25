@@ -35,7 +35,28 @@ class Machine(models.Model):
 
 
 class Usine(Local):  # heritage Usine herite de local
-    machines = models.ManyToManyField(Machine)
+    machines = models.ManyToManyField(Machine)  # agrégation
 
     def __str__(self):
-        pass
+        return self.nom
+
+
+class Objet(models.Model):
+    nom = models.CharField(max_length=100)
+    prix = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.nom
+
+
+class Ressource(Objet):
+    def __str__(self):
+        return self.nom
+
+
+class QuantiteRessource(models.Model):
+    ressource = models.ForeignKey(Ressource, on_delete=models.CASCADE)  # composition
+    quantite = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.ressource
