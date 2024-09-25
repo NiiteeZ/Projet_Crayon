@@ -13,7 +13,9 @@ class Ville(models.Model):
 
 class Local(models.Model):
     nom = models.CharField(max_length=100)
-    ville = models.ForeignKey(Ville, on_delete=models.CASCADE)
+    ville = models.ForeignKey(
+        Ville, on_delete=models.CASCADE
+    )  # Composition ie une seule ville
     surface = models.IntegerField(default=0)
 
     def __str__(self):
@@ -59,4 +61,4 @@ class QuantiteRessource(models.Model):
     quantite = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.quantite
+        return self.ressource
