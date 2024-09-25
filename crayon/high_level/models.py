@@ -62,11 +62,3 @@ class QuantiteRessource(models.Model):
 
     def __str__(self):
         return f"{self.ressource.nom} : {self.quantite}"
-
-
-class Stock:
-    objet = models.ForeignKey(Objet, on_delete=models.CASCADE)
-    nombre = models.IntegerField(default=0)
-
-    def __str__(self):
-        return f"{self.nombre}"
