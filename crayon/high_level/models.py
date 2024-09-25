@@ -5,7 +5,7 @@ from django.db import models
 class Ville(models.Model):
     nom = models.CharField(max_length=100)
     code_postal = models.IntegerField(default=0)
-    prix_par_m2 = models.IntegerField(default=0)
+    prix = models.IntegerField(default=0)
 
     def __str__(self):
         return self.nom
@@ -23,40 +23,3 @@ class Local(models.Model):
 class SiegeSocial(Local):  # heritage siege herite de local
     def __str__(self):
         return f"Siège social à {self.ville.nom}"
-
-
-class Machine(models.Model):
-    nom = models.CharField(max_length=100)
-    prix = models.IntegerField(default=0)
-    n_serie = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.nom
-
-
-class Usine(Local):  # heritage Usine herite de local
-    machines = models.ManyToManyField(Machine)  # agrégation
-
-    def __str__(self):
-        return self.nom
-
-
-class Objet(models.Model):
-    nom = models.CharField(max_length=100)
-    prix = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.nom
-
-
-class Ressource(Objet):
-    def __str__(self):
-        return self.nom
-
-
-class QuantiteRessource(models.Model):
-    ressource = models.ForeignKey(Ressource, on_delete=models.CASCADE)  # composition
-    quantite = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.ressource
