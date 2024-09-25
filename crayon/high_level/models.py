@@ -62,3 +62,29 @@ class QuantiteRessource(models.Model):
 
     def __str__(self):
         return f"{self.ressource.nom} : {self.quantite}"
+
+
+class Etape:
+    nom = models.CharField(max_length=100)
+    machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
+    quantite_ressource = models.ForeignKey(QuantiteRessource, on_delete=models.CASCADE)
+    duree = models.IntegerField(default=0)
+    etape_suivant = models.ForeignKey("self", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.nom} : {self.duree}"
+
+
+class Produit(Objet):
+    premiere_etape = models.ForeignKey(Etape, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nom
+
+
+class Stock:
+    objet = models.ForeignKey(Objet, on_delete=models.CASCADE)
+    nombre = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.nombre}"
