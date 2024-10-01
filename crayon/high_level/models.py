@@ -1,4 +1,5 @@
 # Create your models here.
+
 from django.db import models
 
 
@@ -47,9 +48,8 @@ class Usine(Local):  # heritage Usine herite de local
 
     def costs(self):
         machine_cost = 0
-
-        for i in Machine.objects.all():
-            machine_cost = machine_cost + i.prix
+        for mach in Machine.objects.all():
+            machine_cost = machine_cost + mach.prix
 
         local_cost = self.surface * self.ville.prix_metre2
         return machine_cost + local_cost
