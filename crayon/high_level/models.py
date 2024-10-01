@@ -69,7 +69,9 @@ class Etape(models.Model):
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
     quantite_ressource = models.ForeignKey(QuantiteRessource, on_delete=models.CASCADE)
     duree = models.IntegerField(default=0)
-    etape_suivant = models.ForeignKey("self", on_delete=models.PROTECT)
+    etape_suivant = models.ForeignKey(
+        "self", on_delete=models.PROTECT
+    )  # etape suivant infini demander au prof
 
     def __str__(self):
         return self.nom
