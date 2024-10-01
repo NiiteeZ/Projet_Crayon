@@ -5,7 +5,7 @@ from django.db import models
 class Ville(models.Model):
     nom = models.CharField(max_length=100)
     code_postal = models.IntegerField(default=0)
-    prix = models.IntegerField(default=0)
+    prix_metre2 = models.IntegerField(default=0)
 
     def __str__(self):
         return self.nom
@@ -35,12 +35,24 @@ class Machine(models.Model):
     def __str__(self):
         return self.nom
 
+    def costs(self):
+        return self.prix
+
 
 class Usine(Local):  # heritage Usine herite de local
     machines = models.ManyToManyField(Machine)  # agrégation
 
     def __str__(self):
         return self.nom
+
+    def costs(self):
+        machine_cost = 0
+
+        for i in Machine.objects.all():
+            machine_cost = machine_cost + i.prix
+
+        local_cost = self.surface * self.ville.prix_metre2
+        return machine_cost + local_cost
 
 
 class Objet(models.Model):
@@ -62,6 +74,9 @@ class QuantiteRessource(models.Model):
 
     def __str__(self):
         return f"{self.ressource.nom} : {self.quantite}"
+
+    def costs(self):
+        return self.quantite * self.ressource.prix
 
 
 class Etape(models.Model):
