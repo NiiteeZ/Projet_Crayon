@@ -11,6 +11,13 @@ class Ville(models.Model):
     def __str__(self):
         return self.nom
 
+    def json_extended(self):
+        return {
+            "nom": self.nom,
+            "code postale": self.code_postal,
+            "prix par m2": self.prix_metre2,
+        }
+
 
 class Local(models.Model):
     nom = models.CharField(max_length=100)
@@ -21,6 +28,13 @@ class Local(models.Model):
 
     def __str__(self):
         return self.nom
+
+    def json(self):
+        return {
+            "nom": self.nom,
+            "ville": self.ville.json_extended(),
+            "surface": self.surface,
+        }
 
 
 class SiegeSocial(Local):  # heritage siege herite de local
@@ -39,6 +53,13 @@ class Machine(models.Model):
     def costs(self):
         return self.prix
 
+    def json_extended(self):
+        return {
+            "nom": self.nom,
+            "prix": self.prix,
+            "numero de serie": self.n_serie,
+        }
+
 
 class Objet(models.Model):
     nom = models.CharField(max_length=100)
@@ -46,6 +67,12 @@ class Objet(models.Model):
 
     def __str__(self):
         return self.nom
+
+    def json(self):
+        return {
+            "nom": self.nom,
+            "prix": self.prix,
+        }
 
 
 class Ressource(Objet):
@@ -70,8 +97,8 @@ class Etape(models.Model):
     quantite_ressource = models.ForeignKey(QuantiteRessource, on_delete=models.CASCADE)
     duree = models.IntegerField(default=0)
     etape_suivant = models.ForeignKey(
-        "self", on_delete=models.PROTECT
-    )  # etape suivant infini demander au prof
+        "self", null=True, on_delete=models.PROTECT, blank=True
+    )
 
     def __str__(self):
         return self.nom
@@ -111,3 +138,11 @@ class Usine(Local):  # heritage Usine herite de local
 
         local_cost = self.surface * self.ville.prix_metre2
         return machine_cost + stock_cost + local_cost
+
+    def json_extended(self):
+        return {
+            "nom": self.nom,
+            "ville": self.ville.json_extended(),
+            "surface": self.surface,
+            "machines": [mach.json_extended() for mach in self.machines.all()],
+        }
