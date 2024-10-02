@@ -40,21 +40,6 @@ class Machine(models.Model):
         return self.prix
 
 
-class Usine(Local):  # heritage Usine herite de local
-    machines = models.ManyToManyField(Machine)  # agrégation
-
-    def __str__(self):
-        return self.nom
-
-    def costs(self):
-        machine_cost = 0
-        for mach in Machine.objects.all():
-            machine_cost = machine_cost + mach.prix
-
-        local_cost = self.surface * self.ville.prix_metre2
-        return machine_cost + local_cost
-
-
 class Objet(models.Model):
     nom = models.CharField(max_length=100)
     prix = models.IntegerField(default=0)
@@ -100,8 +85,29 @@ class Produit(Objet):
 
 
 class Stock(models.Model):
-    objet = models.ForeignKey(Objet, on_delete=models.CASCADE)
+    ressource = models.ForeignKey(Ressource, on_delete=models.CASCADE)
     nombre = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.nombre}"
+        return f"{self.nombre} x {self.ressource.nom}"
+
+
+class Usine(Local):  # heritage Usine herite de local
+    machines = models.ManyToManyField(Machine)  # agrégation
+    stock = models.ManyToManyField(Stock)  # je suppose qu'une usine à plusieurs stocks
+
+    def __str__(self):
+        return self.nom
+
+    def costs(self):
+        machine_cost = 0
+        stock_cost = 0
+
+        for mach in Machine.objects.all():
+            machine_cost = machine_cost + mach.prix
+
+        for stk in Stock.objects.all():
+            stock_cost = stock_cost + stk.ressource.prix * stk.nombre
+
+        local_cost = self.surface * self.ville.prix_metre2
+        return machine_cost + stock_cost + local_cost
