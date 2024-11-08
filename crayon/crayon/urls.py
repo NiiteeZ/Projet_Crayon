@@ -46,4 +46,34 @@ urlpatterns = [
         views.UsineDetailView.as_view(),
         name="Usine",
     ),
+    path(
+        "SiegeSocial/<int:pk>",
+        views.SiegeSocialDetailView.as_view(),
+        name="SiegeSocial",
+    ),
+    path(
+        "Ressource/<int:pk>",
+        views.RessourceDetailView.as_view(),
+        name="Ressource",
+    ),
+    path(
+        "QuantiteRessource/<int:pk>",
+        views.QuantiteRessourceDetailView.as_view(),
+        name="QuantiteRessource",
+    ),
+    path(
+        "Etape/<int:pk>",
+        views.EtapeDetailView.as_view(),
+        name="Etape",
+    ),
+    path(
+        "Produit/<int:pk>",
+        views.ProduitDetailView.as_view(),
+        name="Produit",
+    ),
+    path(
+        "Stock/<int:pk>",
+        views.StockDetailView.as_view(),
+        name="Stock",
+    ),
 ]

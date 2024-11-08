@@ -41,6 +41,13 @@ class SiegeSocial(Local):  # heritage siege herite de local
     def __str__(self):
         return f"Siège social à {self.ville.nom}"
 
+    def json(self):  # Rajout L
+        return {
+            "nom": self.nom,
+            "ville": self.ville.json_extended(),
+            "surface": self.surface,
+        }
+
 
 class Machine(models.Model):
     nom = models.CharField(max_length=100)
@@ -79,6 +86,12 @@ class Ressource(Objet):
     def __str__(self):
         return self.nom
 
+    def json(self):  # Rajout L
+        return {
+            "nom": self.nom,
+            "prix": self.prix,
+        }
+
 
 class QuantiteRessource(models.Model):
     ressource = models.ForeignKey(Ressource, on_delete=models.CASCADE)  # composition
@@ -89,6 +102,15 @@ class QuantiteRessource(models.Model):
 
     def costs(self):
         return self.quantite * self.ressource.prix
+
+    def json_extended(self):  # Luc ajout
+        return {
+            "ressource": {
+                "nom": self.ressource.nom,
+                "prix": self.ressource.prix,
+            },
+            "quantite": self.quantite,
+        }
 
 
 class Etape(models.Model):
@@ -103,12 +125,26 @@ class Etape(models.Model):
     def __str__(self):
         return self.nom
 
+    def json_extended(self):  # Luc ajout
+        return {
+            "nom": self.nom,
+            "machine": self.machine.json_extended(),
+            "quantite_ressource": self.quantite_ressource.json_extended(),
+            "duree": self.duree,
+            # "etape_suivant" : self,   # A voir
+        }
+
 
 class Produit(Objet):
     premiere_etape = models.ForeignKey(Etape, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nom
+
+    def json_extended(self): 
+        return {
+            "premiere_etape": self.premiere_etape.json_extended(),
+        }
 
 
 class Stock(models.Model):
@@ -118,9 +154,18 @@ class Stock(models.Model):
     def __str__(self):
         return f"{self.nombre} x {self.ressource.nom}"
 
+    def json_extended(self):
+        return {
+            "ressource": {
+                "nom": self.ressource.nom,
+                "prix": self.ressource.prix,
+            },
+            "nombre": self.nombre,
+        }
+
 
 class Usine(Local):  # heritage Usine herite de local
-    machines = models.ManyToManyField(Machine)  # agrégation
+    machines = models.ManyToManyField(Machine)  # agregation
     stock = models.ManyToManyField(Stock)  # je suppose qu'une usine à plusieurs stocks
 
     def __str__(self):
@@ -145,4 +190,5 @@ class Usine(Local):  # heritage Usine herite de local
             "ville": self.ville.json_extended(),
             "surface": self.surface,
             "machines": [mach.json_extended() for mach in self.machines.all()],
+            "stock": [stoc.json_extended() for stoc in self.stock.all()],  # rajout L
         }
