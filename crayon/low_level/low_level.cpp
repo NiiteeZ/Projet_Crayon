@@ -80,7 +80,7 @@ class Local {
     }
 };
 
-class SiegeSocial : Local {
+class SiegeSocial : public Local {
 
   public:
     SiegeSocial(string nom_, json ville_, int surface_)
@@ -180,7 +180,7 @@ class Objet {
     }
 };
 
-class Ressource : Objet {
+class Ressource : public Objet {
 
   public:
     Ressource(string nom_, int prix_)
