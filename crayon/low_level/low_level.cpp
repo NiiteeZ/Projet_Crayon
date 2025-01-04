@@ -28,16 +28,23 @@ class Ville {
       prix_metre2 = data["prix par m2"];
     }
     static void affichage(){
+      unsigned int essai = 0;
       while(true){
         static unsigned int id = 1;
-        string url_ville = "http://localhost:8000/Ville/"+to_string(id);
+        string url_ville = "http://localhost:8000/Ville/api/"+to_string(id);
         auto response = cpr::Get(cpr::Url{url_ville});
-        if (response.status_code != 200) {
-          break; // Arreter boucle si ID existe pas
+        if (response.status_code != 200) { // si id existe pas
+          essai++;  // +1 essai
         }
-        const auto ville_ = Ville(
-            json::parse(cpr::Get(cpr::Url{url_ville}).text));
-        std::cout << "Ville: " << ville_ << "\n" << std::endl;
+        else{ // sinon si id existe alors on affiche dans le terminal
+          const auto ville_ = Ville(
+              json::parse(cpr::Get(cpr::Url{url_ville}).text));
+          std::cout << "Ville: " << ville_ << "\n" << std::endl;
+          essai=0;
+        }
+        if(essai==5){ //Au bout de 5 essais consecutif sans reponse on stop la lecture
+          break;  // On donne 5 essais car cela peu arriver qu on supprime une instance dans le site localhost, ce qui entraine la perte de cet id pour laffiche
+        }  // si on ne fait pas cela et que par exemple id : 1,2 existe pas mais que id : 3 existe, on ne pourra pas lafficher car on aurai pas continue le test pour savoir si d autre id existe
         id++;
       }
     }
@@ -65,16 +72,23 @@ class Local {
     }
 
     static void affichage(){
+      unsigned int essai = 0;
       while(true){
         static unsigned int id = 1;
-        string url_local = "http://localhost:8000/Local/"+to_string(id);
+        string url_local = "http://localhost:8000/Local/api/"+to_string(id);
         auto response = cpr::Get(cpr::Url{url_local});
         if (response.status_code != 200) {
+          essai++;
+        }
+        else{
+          const auto local_ = Local(
+              json::parse(cpr::Get(cpr::Url{url_local}).text));
+          std::cout << "Local: " << local_ << "\n" << std::endl;
+          essai=0;
+          }
+        if(essai==5){
           break;
         }
-        const auto local_ = Local(
-            json::parse(cpr::Get(cpr::Url{url_local}).text));
-        std::cout << "Local: " << local_ << "\n" << std::endl;
         id++;
       }
     }
@@ -94,16 +108,23 @@ class SiegeSocial : public Local {
     SiegeSocial(json data) : Local(data) {}
 
     static void affichage(){
+      unsigned int essai = 0;
       while(true){
         static unsigned int id = 1;
-        string url_siege = "http://localhost:8000/siegesocial/"+to_string(id);
+        string url_siege = "http://localhost:8000/SiegeSocial/api/"+to_string(id);
         auto response = cpr::Get(cpr::Url{url_siege});
         if (response.status_code != 200) {
-          break; // Arreter boucle si ID existe pas
+          essai++;
         }
-        const auto siege = SiegeSocial(
-            json::parse(cpr::Get(cpr::Url{url_siege}).text));
-        std::cout << "Siege Social: " << siege << "\n" << std::endl;
+        else {
+          const auto siege = SiegeSocial(
+              json::parse(cpr::Get(cpr::Url{url_siege}).text));
+          std::cout << "Siege Social: " << siege << "\n" << std::endl;
+          essai=0;
+        }
+        if(essai==5){
+          break;
+        }
         id++;
       }
     }
@@ -131,16 +152,23 @@ class Machine {
     }
 
     static void affichage(){
+      unsigned int essai = 0;
       while(true){
         static unsigned int id = 1;
-        string url_machine = "http://localhost:8000/Machine/"+to_string(id);
+        string url_machine = "http://localhost:8000/Machine/api/"+to_string(id);
         auto response = cpr::Get(cpr::Url{url_machine});
         if (response.status_code != 200) {
-          break; // Arreter boucle si ID existe pas
+          essai++;
         }
-        const auto machine_ = Machine(
-            json::parse(cpr::Get(cpr::Url{url_machine}).text));
-        std::cout << "Machine: " << machine_ << "\n" << std::endl;
+        else{
+          const auto machine_ = Machine(
+              json::parse(cpr::Get(cpr::Url{url_machine}).text));
+          std::cout << "Machine: " << machine_ << "\n" << std::endl;
+          essai=0;
+        }
+        if(essai==5){
+          break;
+        }
         id++;
       }
     }
@@ -165,16 +193,23 @@ class Objet {
     }
 
     static void affichage(){
+      unsigned int essai = 0;
       while(true){
         static unsigned int id = 1;
-        string url_objet = "http://localhost:8000/Objet/"+to_string(id);
+        string url_objet = "http://localhost:8000/Objet/api/"+to_string(id);
         auto response = cpr::Get(cpr::Url{url_objet});
         if (response.status_code != 200) {
-          break; // Arreter boucle si ID existe pas
+          essai++;
         }
-        const auto objet_ = Objet(
-            json::parse(cpr::Get(cpr::Url{url_objet}).text));
-        std::cout << "Objet: " << objet_ << "\n" << std::endl;
+        else {
+          const auto objet_ = Objet(
+              json::parse(cpr::Get(cpr::Url{url_objet}).text));
+          std::cout << "Objet: " << objet_ << "\n" << std::endl;
+          essai=0;
+        }
+        if(essai==5){
+          break;
+        }
         id++;
       }
     }
@@ -193,16 +228,23 @@ class Ressource : public Objet {
     Ressource(json data) : Objet(data) {}
 
     static void affichage(){
+      unsigned int essai = 0;
       while(true){
         static unsigned int id = 1;
-        string url_Ressource = "http://localhost:8000/Ressource/"+to_string(id);
+        string url_Ressource = "http://localhost:8000/Ressource/api/"+to_string(id);
         auto response = cpr::Get(cpr::Url{url_Ressource});
         if (response.status_code != 200) {
-          break; // Arreter boucle si ID existe pas
+          essai++;
         }
-        const auto Ressource_ = Ressource(
-            json::parse(cpr::Get(cpr::Url{url_Ressource}).text));
-        std::cout << "Ressource: " << Ressource_ << "\n" << std::endl;
+        else {
+          const auto Ressource_ = Ressource(
+              json::parse(cpr::Get(cpr::Url{url_Ressource}).text));
+          std::cout << "Ressource: " << Ressource_ << "\n" << std::endl;
+          essai=0;
+        }
+        if(essai==5){
+          break;
+        }
         id++;
       }
     }
@@ -227,16 +269,23 @@ class QuantiteRessource {
     }
 
     static void affichage(){
+      unsigned int essai = 0;
       while(true){
         static unsigned int id = 1;
-        string url_QuantiteRessource = "http://localhost:8000/QuantiteRessource/"+to_string(id);
+        string url_QuantiteRessource = "http://localhost:8000/QuantiteRessource/api/"+to_string(id);
         auto response = cpr::Get(cpr::Url{url_QuantiteRessource});
         if (response.status_code != 200) {
-          break; // Arreter boucle si ID existe pas
+          essai++;
         }
-        const auto QuantiteRessource_ = QuantiteRessource(
-            json::parse(cpr::Get(cpr::Url{url_QuantiteRessource}).text));
-        std::cout << "QuantiteRessource: " << QuantiteRessource_ << "\n" << std::endl;
+        else {
+          const auto QuantiteRessource_ = QuantiteRessource(
+              json::parse(cpr::Get(cpr::Url{url_QuantiteRessource}).text));
+          std::cout << "QuantiteRessource: " << QuantiteRessource_ << "\n" << std::endl;
+          essai=0;
+        }
+        if(essai==5){
+          break;
+        }
         id++;
       }
     }
@@ -261,16 +310,23 @@ class Stock {
     }
 
     static void affichage(){
+      unsigned int essai = 0;
       while(true){
         static unsigned int id = 1;
-        string url_Stock = "http://localhost:8000/Stock/"+to_string(id);
+        string url_Stock = "http://localhost:8000/Stock/api/"+to_string(id);
         auto response = cpr::Get(cpr::Url{url_Stock});
         if (response.status_code != 200) {
-          break; // Arreter boucle si ID existe pas
+          essai++;
         }
-        const auto Stock_ = Stock(
-            json::parse(cpr::Get(cpr::Url{url_Stock}).text));
-        std::cout << "Stock: " << Stock_ << "\n" << std::endl;
+        else {
+          const auto Stock_ = Stock(
+              json::parse(cpr::Get(cpr::Url{url_Stock}).text));
+          std::cout << "Stock: " << Stock_ << "\n" << std::endl;
+          essai=0;
+        }
+        if(essai==5){
+          break;
+        }
         id++;
       }
     }
@@ -316,16 +372,23 @@ class Usine : public Local {
     }
 
     static void affichage(){
+      unsigned int essai = 0;
       while(true){
         static unsigned int id = 1;
-        string url_Usine = "http://localhost:8000/Usine/"+to_string(id);
+        string url_Usine = "http://localhost:8000/Usine/api/"+to_string(id);
         auto response = cpr::Get(cpr::Url{url_Usine});
         if (response.status_code != 200) {
-          break; // Arreter boucle si ID existe pas
+          essai++;
         }
-        const auto Usine_ = Usine(
-            json::parse(cpr::Get(cpr::Url{url_Usine}).text));
-        std::cout << "Usine: " << Usine_ << "\n" << std::endl;
+        else {
+          const auto Usine_ = Usine(
+              json::parse(cpr::Get(cpr::Url{url_Usine}).text));
+          std::cout << "Usine: " << Usine_ << "\n" << std::endl;
+          essai=0;
+        }
+        if(essai==5){
+          break;
+        }
         id++;
       }
     }
@@ -355,5 +418,8 @@ auto main() -> int {
 
   std::cout << "\nAffichage Usine: \n"<< endl;
   Usine::affichage();
+
+  std::cout << "\nAffichage Siege Social: \n"<< endl;
+  SiegeSocial::affichage();
   return 0;
 }

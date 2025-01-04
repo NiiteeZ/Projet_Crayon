@@ -5,7 +5,7 @@ from .models import Ville, Machine, Ressource, Usine, Stock
 
 class TestUnitaire(TestCase):
     def test_usine_creation(self):
-        ville = Ville.objects.create(nom="Labege", code_postal=31000, prix_metre2=2000)
+        ville = Ville.objects.create(nom="Labege", code_postal=31670, prix_metre2=2000)
 
         machine1 = Machine.objects.create(nom="M1", prix=1000, n_serie=16832)
         machine2 = Machine.objects.create(nom="M2", prix=2000, n_serie=16833)

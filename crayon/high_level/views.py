@@ -26,7 +26,15 @@ class VilleDetailView(DetailView):
     def render_to_response(
         self, context: Dict[str, Any], **response_kwargs: Any
     ) -> HttpResponse:
-        return JsonResponse(self.object.json_extended()) #Mettre Json a la place de extended
+        return JsonResponse(self.object.json())
+    
+class VilleApiView(DetailView):
+    model = Ville
+
+    def render_to_response(
+        self, context: Dict[str, Any], **response_kwargs: Any
+    ) -> HttpResponse:
+        return JsonResponse(self.object.json_extended())
 
 #class VilleApiView(DetailView):
 #    model = Ville
@@ -42,8 +50,15 @@ class LocalDetailView(DetailView):
     def render_to_response(
         self, context: Dict[str, Any], **response_kwargs: Any
     ) -> HttpResponse:
-        return JsonResponse(self.object.json_extended())
+        return JsonResponse(self.object.json())
 
+class LocalApiView(DetailView):
+    model = Local
+
+    def render_to_response(
+        self, context: Dict[str, Any], **response_kwargs: Any
+    ) -> HttpResponse:
+        return JsonResponse(self.object.json_extended())
 
 class MachineDetailView(DetailView):
     model = Machine
@@ -51,19 +66,41 @@ class MachineDetailView(DetailView):
     def render_to_response(
         self, context: Dict[str, Any], **response_kwargs: Any
     ) -> HttpResponse:
+        return JsonResponse(self.object.json())
+
+class MachineApiView(DetailView):
+    model = Machine
+
+    def render_to_response(
+        self, context: Dict[str, Any], **response_kwargs: Any
+    ) -> HttpResponse:
         return JsonResponse(self.object.json_extended())
-
-
+    
 class ObjetDetailView(DetailView):
     model = Objet
 
     def render_to_response(
         self, context: Dict[str, Any], **response_kwargs: Any
     ) -> HttpResponse:
+        return JsonResponse(self.object.json())
+
+class ObjetApiView(DetailView):
+    model = Objet
+
+    def render_to_response(
+        self, context: Dict[str, Any], **response_kwargs: Any
+    ) -> HttpResponse:
         return JsonResponse(self.object.json_extended())
-
-
+    
 class UsineDetailView(DetailView):
+    model = Usine
+
+    def render_to_response(
+        self, context: Dict[str, Any], **response_kwargs: Any
+    ) -> HttpResponse:
+        return JsonResponse(self.object.json())
+
+class UsineApiView(DetailView):
     model = Usine
 
     def render_to_response(
@@ -71,8 +108,15 @@ class UsineDetailView(DetailView):
     ) -> HttpResponse:
         return JsonResponse(self.object.json_extended())
 
-
 class SiegeSocialDetailView(DetailView):
+    model = SiegeSocial
+
+    def render_to_response(
+        self, context: Dict[str, Any], **response_kwargs: Any
+    ) -> HttpResponse:
+        return JsonResponse(self.object.json())
+
+class SiegeSocialApiView(DetailView):
     model = SiegeSocial
 
     def render_to_response(
@@ -80,8 +124,15 @@ class SiegeSocialDetailView(DetailView):
     ) -> HttpResponse:
         return JsonResponse(self.object.json_extended())
 
-
 class RessourceDetailView(DetailView):
+    model = Ressource
+
+    def render_to_response(
+        self, context: Dict[str, Any], **response_kwargs: Any
+    ) -> HttpResponse:
+        return JsonResponse(self.object.json())
+    
+class RessourceApiView(DetailView):
     model = Ressource
 
     def render_to_response(
@@ -96,10 +147,25 @@ class QuantiteRessourceDetailView(DetailView):
     def render_to_response(
         self, context: Dict[str, Any], **response_kwargs: Any
     ) -> HttpResponse:
+        return JsonResponse(self.object.json())
+
+class QuantiteRessourceApiView(DetailView):
+    model = QuantiteRessource
+
+    def render_to_response(
+        self, context: Dict[str, Any], **response_kwargs: Any
+    ) -> HttpResponse:
         return JsonResponse(self.object.json_extended())
 
-
 class EtapeDetailView(DetailView):
+    model = Etape
+
+    def render_to_response(
+        self, context: Dict[str, Any], **response_kwargs: Any
+    ) -> HttpResponse:
+        return JsonResponse(self.object.json())
+    
+class EtapeApiView(DetailView):
     model = Etape
 
     def render_to_response(
@@ -108,7 +174,16 @@ class EtapeDetailView(DetailView):
         return JsonResponse(self.object.json_extended())
 
 
+
 class ProduitDetailView(DetailView):
+    model = Produit
+
+    def render_to_response(
+        self, context: Dict[str, Any], **response_kwargs: Any
+    ) -> HttpResponse:
+        return JsonResponse(self.object.json())
+    
+class ProduitApiView(DetailView):
     model = Produit
 
     def render_to_response(
@@ -118,6 +193,14 @@ class ProduitDetailView(DetailView):
 
 
 class StockDetailView(DetailView):
+    model = Stock
+
+    def render_to_response(
+        self, context: Dict[str, Any], **response_kwargs: Any
+    ) -> HttpResponse:
+        return JsonResponse(self.object.json())
+    
+class StockApiView(DetailView):
     model = Stock
 
     def render_to_response(

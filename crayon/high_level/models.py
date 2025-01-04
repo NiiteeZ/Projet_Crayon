@@ -11,6 +11,14 @@ class Ville(models.Model):
     def __str__(self):
         return self.nom
 
+    def json(self):
+        return {
+            "id": self.id,
+            "nom": self.nom,
+            "code postale": self.code_postal,
+            "prix par m2": self.prix_metre2,
+        }
+    
     def json_extended(self):
         return {
             "nom": self.nom,
@@ -29,25 +37,36 @@ class Local(models.Model):
     def __str__(self):
         return self.nom
 
+    def json(self):
+        return {
+            "id": self.id,
+            "nom": self.nom,
+            "ville": self.ville.id,
+            "surface": self.surface,
+        }
+    
     def json_extended(self):
         return {
             "nom": self.nom,
             "ville": self.ville.json_extended(),
             "surface": self.surface,
         }
-    def json(self):
-        return {
-            "nom": self.nom,
-            "ville": self.ville.id,
-            "surface": self.surface,
-        }
+    
 
 
 class SiegeSocial(Local):  # heritage siege herite de local
     def __str__(self):
         return f"Siege social a {self.ville.nom}"
+    
+    def json(self):
+        return {
+            "id": self.id,
+            "nom": self.nom,
+            "ville": self.ville.id,
+            "surface": self.surface,
+        }
 
-    def json_extended(self):  # Rajout L
+    def json_extended(self): 
         return {
             "nom": self.nom,
             "ville": self.ville.json_extended(),
@@ -65,6 +84,14 @@ class Machine(models.Model):
 
     def costs(self):
         return self.prix
+    
+    def json(self):
+        return {
+            "id": self.id,
+            "nom": self.nom,
+            "prix": self.prix,
+            "numero de serie": self.n_serie,
+        }
 
     def json_extended(self):
         return {
@@ -80,6 +107,13 @@ class Objet(models.Model):
 
     def __str__(self):
         return self.nom
+    
+    def json(self):
+        return {
+            "id": self.id,
+            "nom": self.nom,
+            "prix": self.prix,
+        }
 
     def json_extended(self):
         return {
@@ -91,6 +125,13 @@ class Objet(models.Model):
 class Ressource(Objet):
     def __str__(self):
         return self.nom
+
+    def json(self): 
+        return {
+            "id": self.id,
+            "nom": self.nom,
+            "prix": self.prix,
+        }
 
     def json_extended(self): 
         return {
@@ -108,8 +149,15 @@ class QuantiteRessource(models.Model):
 
     def costs(self):
         return self.quantite * self.ressource.prix
+    
+    def json(self):
+        return {
+            "id": self.id,
+            "ressource": self.ressource.id,
+            "quantite": self.quantite,
+        }
 
-    def json_extended(self):  # Luc ajout
+    def json_extended(self):
         return {
             "ressource": self.ressource.json_extended(),
             "quantite": self.quantite,
@@ -128,13 +176,23 @@ class Etape(models.Model):
     def __str__(self):
         return self.nom
 
-    def json_extended(self):  # Luc ajout
+    def json(self):
+        return {
+            "id": self.id,
+            "nom": self.nom,
+            "machine": self.machine.id,
+            "quantite_ressource": self.quantite_ressource.id,
+            "duree": self.duree,
+            "etape_suivant" : self.etape_suivant.id,
+        }
+    
+    def json_extended(self):
         return {
             "nom": self.nom,
             "machine": self.machine.json_extended(),
             "quantite_ressource": self.quantite_ressource.json_extended(),
             "duree": self.duree,
-            "etape_suivant" : self.etape_suivant.json_extended(),   # A voir
+            "etape_suivant" : self.etape_suivant.json_extended(),
         }
 
 
@@ -143,8 +201,14 @@ class Produit(Objet):
 
     def __str__(self):
         return self.nom
+    
+    def json(self): 
+        return {
+            "id": self.id,
+            "premiere_etape": self.premiere_etape.id,
+        }
 
-    def json_extended(self):  # Luc ajout
+    def json_extended(self): 
         return {
             "premiere_etape": self.premiere_etape.json_extended(),
         }
@@ -156,6 +220,13 @@ class Stock(models.Model):
 
     def __str__(self):
         return f"{self.nombre} x {self.ressource.nom}"
+    
+    def json(self):
+        return {
+            "id": self.id,
+            "ressource": self.ressource.id,
+            "nombre": self.nombre,
+        }
 
     def json_extended(self):
         return {
@@ -183,6 +254,16 @@ class Usine(Local):  # heritage Usine herite de local
 
         local_cost = self.surface * self.ville.prix_metre2
         return machine_cost + stock_cost + local_cost
+
+    def json(self):
+        return {
+            "id": self.id,
+            "nom": self.nom,
+            "ville": self.ville.id,
+            "surface": self.surface,
+            "machines": [mach.id for mach in self.machines.all()],
+            "stock": [stoc.id for stoc in self.stock.all()],
+        }
 
     def json_extended(self):
         return {
