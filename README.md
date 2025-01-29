@@ -54,7 +54,7 @@ cd Projet_crayon/
 python -m venv .venv
 echo .venv >> .gitignore
 ```
-- Activez l'environnement virtuel celon votre machine :
+- Activez l'environnement virtuel selon votre machine :
 ```bash
 #Linux
 source .venv/bin/activate 
@@ -91,7 +91,7 @@ python ./manage.py createsuperuser
 - Si le mot de passe est trop commun modifiez-le ou appuyez **y**
 
 ![](./Image/terminal-02.png "terminal-02")
-- Lancer le serveur local en lançant :
+- Lancez le serveur local en lançant :
 ```bash
 python ./manage.py runserver
 ```
@@ -134,7 +134,7 @@ Enregistrez et créez une deuxième ville en appuyant sur _Save and add another_
 
 Enregistrez en appuyant sur _Save_
 
-La troisième ville va créée plus tard.
+La troisième ville va être créée plus tard.
 
 ### 3.2 Usines
 - Ajoutez une première usine :
@@ -224,14 +224,14 @@ On a crée précédement :
 - 2 Ressources
 - 3 Stocks
 - 1 Siège Social
-- (3 Locals car les classes Usines et Siège social hérite de Locals)
+- (3 Locals car les classes Usines et Siège social héritent de Locals)
 
-Pour les visualiser dans le navigateur, il y a deux type d'affichage : 
+Pour les visualiser dans le navigateur, il y a deux types d'affichage : 
 - **DetailView** : Qui fournit une vue légère des éléments en renseignant l'**ID** des éléments qui les composent.
 - **ApiView** : Qui renseigne le détail complet du modèle en détaillant les éléments qui les composent.
 
 ### 4.1 DetailView
-Pour consulter les villes crées, dans un navigateur internet coller l'url suivant :
+Pour consulter les villes créées, dans un navigateur internet coller l'url suivant :
 #### 4.1.1 Ville :
 ```bash
 http://localhost:8000/Ville/1
@@ -249,7 +249,7 @@ localhost:8000/admin/high_level/ville/1/change/
 ```
 Donc l'**ID** de Nanterre est 1.
 
-Cela permet d'identifier les **ID** de tous les éléments créent. Par exemple le lien de l'usine Geox est : 
+Cela permet d'identifier les **ID** de tous les éléments créés. Par exemple le lien de l'usine Geox est : 
 ```bash
 localhost:8000/admin/high_level/usine/2/change/
 ```
@@ -302,7 +302,7 @@ Puis on ajoute un des éléments qu'on souhaite afficher plus le terme **api** s
 - Produit/api/ID
 - Stock/api/ID
 
-Par exemple pour visualiser le **siège social** créé, on cherche son **ID** comme expliquer dans la [partie précédente](#41-detailview), puis on le recherche avec son lien api : 
+Par exemple pour visualiser le **siège social** créé, on cherche son **ID** comme expliqué dans la [partie précédente](#41-detailview), puis on le recherche avec son lien api : 
 ```bash
 http://localhost:8000/SiegeSocial/api/3
 ```
@@ -325,7 +325,7 @@ pip install cmake
 ```
 ## 5.2 Compiler et éxécuter le programme C++
 ```bash
-# Generer les fichier de construction
+# Generer les fichiers de construction
 cmake -B build -S .
 
 # Compiler le projet
@@ -354,7 +354,7 @@ Avant d'avoir effectué les parties de manipulations et de créations d'élémen
     - 1000 kg de bois à 10 €/kg
     - 50 m de mine à 15 €/m
 
-- Dans la classe **Usine**, une méthode **cost()** qui calcul les coût est directement implémenté. 
+- Dans la classe **Usine**, une méthode **cost()** qui calcul le coût est directement implémenté. 
 
 - Le test unitaire est implémenté dans le fichier test.py
 
